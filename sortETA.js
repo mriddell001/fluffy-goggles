@@ -5,7 +5,7 @@
 //Function name: sortETA
 
 //Function purpose: Sort an array of locations based on the estimated time of
-//arival from an origin location. Return the proper order of locations as an
+//arrival from an origin location. Return the proper order of locations as an
 //array.
 
 //Function Arguments:
@@ -16,7 +16,7 @@
 //  Address - Optional.
 //  City - Optional if Zip Included.
 //  State - Optional if Zip Included.
-//  Zip - Manditory if City and/or State is empty.
+//  Zip - Mandatory if City and/or State is empty.
 //
 //The values are arrays of strings containing the location data for the key at
 //that index. The data at that index may be blank as long as it fits the minimum
