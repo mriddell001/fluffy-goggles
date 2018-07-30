@@ -5,8 +5,8 @@
 //Function name: sortETA
 
 //Function purpose: Sort an array of locations based on the estimated time of
-//arival from an origin location. Return sorted locations in the form of a
-//dictionary.
+//arival from an origin location. Return the proper order of locations as an
+//array.
 
 //Function Arguments:
 //This function accepts two dictionaries of key/value pairs. They are:
@@ -43,11 +43,10 @@ function sortETA(locationsDictionary, originDictionary) {
     else {origin = origin.concat(oZip);}}
   else {origin = origin.concat(oCity,',',oState);}
 
-
-
   var directionsService = new google.maps.DirectionsService;
 
   var etaArray = [];
+  var x = Number.MAX_SAFE_INTEGER;
   for (var i = 0; i < locationCount; i++) {
     var error = FALSE;
     var m_dest = "";
@@ -55,14 +54,21 @@ function sortETA(locationsDictionary, originDictionary) {
     if (isEmpty(citArray[i])&&isEmpty(staArray[i]) {
       if (!isEmpty(zipArray[i])) {
         m_dest.concat(zipArray[i]);
-      else {etaArray.push(-1);error=TRUE;;}}
+      else {etaArray.push(x);error=TRUE;;}}
     else {m_dest = m_dest.concat(oCity,',',oState);}
     if(!error) {
       var travelTime = calculateTravelTime(directionsService,m_origin,m_dest);
       etaArray.push(travelTime);
     }
+    etaArray[i].push(i);
   }
-  //Sort travel times. Return sorted array.
+
+  etaArray.sort(sortFunction);
+  var retArray = [];
+  for (var i = 0; i < locationCount; i++) {
+    retArray.push(etaArray[i][1]);
+  }
+  return retArray;
 }
 
 function calculateTravelTime(directionsService, m_origin, m_dest) {
@@ -81,3 +87,12 @@ function calculateTravelTime(directionsService, m_origin, m_dest) {
 }
 
 function isEmpty(str) { return (!str || 0 === str.length); }
+
+function sortFunction(a, b) {
+    if (a[0] === b[0]) {
+        return 0;
+    }
+    else {
+        return (a[0] < b[0]) ? -1 : 1;
+    }
+}
